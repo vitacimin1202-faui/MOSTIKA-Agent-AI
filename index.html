@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosmetic MoS Safety Assessor - AI Industrial Pharmacy & Regulatory App</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dark-theme">
+  <!-- Top Navigation Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand">
+        <div class="brand-icon">
+          <i data-lucide="shield-check"></i>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title-row">
+            <span class="brand-title">CosmeticMoS</span>
+            <span class="badge-ai">AI TOXICOLOGIST</span>
+            <span class="badge-ver">v2.4 Pro</span>
+          </div>
+          <span class="brand-sub">SCCS 12th Rev • CIR • ECHA REACH R.8 • EFSA • BPOM RI • ASEAN ACD</span>
+        </div>
+      </div>
+
+      <!-- Center App Navigation Tabs -->
+      <nav class="nav-tabs" id="appNavTabs">
+        <button class="nav-tab active" data-tab="tab-calculator">
+          <i data-lucide="calculator"></i> Kalkulator MoS
+        </button>
+        <button class="nav-tab" data-tab="tab-visualizer">
+          <i data-lucide="bar-chart-3"></i> Grafik Risiko & HI
+        </button>
+        <button class="nav-tab" data-tab="tab-cpsr">
+          <i data-lucide="file-check"></i> Dokumen DIP / CPSR
+        </button>
+        <button class="nav-tab" data-tab="tab-database">
+          <i data-lucide="database"></i> Katalog Toksikologi
+        </button>
+        <button class="nav-tab" data-tab="tab-guidelines">
+          <i data-lucide="book-open"></i> Pedoman SCCS
+        </button>
+      </nav>
+
+      <!-- Right Utility Actions -->
+      <div class="nav-actions">
+        <div class="regulatory-badges">
+          <span class="reg-pill" title="SCCS Notes of Guidance 12th Revision SCCS/1647/22"><i
+              data-lucide="check-circle-2"></i> SCCS EU</span>
+          <span class="reg-pill" title="Badan POM & ASEAN Cosmetic Directive"><i data-lucide="check-circle-2"></i> BPOM
+            RI</span>
+        </div>
+        <button id="themeToggleBtn" class="icon-btn" title="Ganti Tema (Gelap / Terang)">
+          <i data-lucide="sun" class="sun-icon"></i>
+          <i data-lucide="moon" class="moon-icon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Layout with Dynamic Tabs -->
+  <main class="main-content">
+
+    <!-- ========================================================================= -->
+    <!-- TAB 1: FORMULA CALCULATOR & MOS EVALUATION (MAIN INTERFACE)              -->
+    <!-- ========================================================================= -->
+    <section class="tab-content active" id="tab-calculator">
+      <div class="layout-grid">
+
+        <!-- Left Column: Formula Configuration & Builder -->
+        <div class="panel config-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <i data-lucide="flask-conical"></i>
+              <h2>Konfigurasi Sediaan & Formula</h2>
+            </div>
+            <div class="preset-dropdown-box">
+              <label for="presetSelect"><i data-lucide="sparkles"></i> Muat Preset Formula:</label>
+              <select id="presetSelect" class="form-select">
+                <option value="custom">-- Formula Kustom Mandiri --</option>
+                <option value="brightening_cream" selected>✨ Krim Pencerah Wajah (Face Cream)</option>
+                <option value="sunscreen_spf50">☀️ Tabir Surya SPF 50 (Sunscreen Lotion)</option>
+                <option value="antiaging_retinol">🧪 Serum Anti-Aging Retinol (Leave-on)</option>
+                <option value="acne_clarifying">🌿 Gel Anti-Jerawat Asam Salisilat 2.0%</option>
+                <option value="daily_body_lotion">🧴 Losion Pelembab Tubuh (Body Lotion)</option>
+                <option value="baby_gentle_wash">👶 Sabun Mandi Bayi Lembut (Bayi 5 kg)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Product Metadata Form -->
+          <div class="form-row-grid">
+            <div class="form-group">
+              <label for="productCategory"><i data-lucide="package"></i> Kategori Produk (SCCS Table 1)</label>
+              <select id="productCategory" class="form-select">
+                <option value="face_cream">Krim Wajah (Face Cream - 1.54 g/hari)</option>
+                <option value="body_lotion">Losion Badan (Body Lotion - 7.82 g/hari)</option>
+                <option value="hand_cream">Krim Tangan (Hand Cream - 2.16 g/hari)</option>
+                <option value="sunscreen_lotion">Tabir Surya (Sunscreen - 18.0 g/hari)</option>
+                <option value="lipstick">Lipstik / Lip Balm (0.057 g/hari - Ingested)</option>
+                <option value="eye_shadow">Perona Mata / Eyeliner (0.02 g/hari)</option>
+                <option value="facial_cleanser">Pembersih Wajah (2.0 g/hari - Rinse-off)</option>
+                <option value="shampoo">Sampo Rambut (10.46 g/hari - Rinse-off)</option>
+                <option value="hair_conditioner">Kondisioner Rambut (3.92 g/hari - Rinse-off)</option>
+                <option value="shower_gel">Sabun Mandi Cair (18.67 g/hari - Rinse-off)</option>
+                <option value="deodorant_rollon">Deodoran Roll-on (1.50 g/hari)</option>
+                <option value="toothpaste_adult">Pasta Gigi Dewasa (2.75 g/hari - 5% Ingested)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="targetPopulation"><i data-lucide="users"></i> Target Populasi & Berat Badan</label>
+              <select id="targetPopulation" class="form-select">
+                <option value="60">Dewasa (60.0 kg - Standar SCCS)</option>
+                <option value="5">Bayi 0 - 6 Bulan (5.0 kg)</option>
+                <option value="10">Balita 6 - 12 Bulan (10.0 kg)</option>
+                <option value="15">Anak 1 - 3 Tahun (15.0 kg)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- SCCS Exposure Parameter Badges -->
+          <div class="sccs-badge-bar">
+            <div class="sccs-item">
+              <span class="sccs-label">Pajanan Harian (A):</span>
+              <strong class="sccs-val" id="dispA">1.54 g/hari</strong>
+            </div>
+            <div class="sccs-item">
+              <span class="sccs-label">Faktor Retensi (R):</span>
+              <strong class="sccs-val" id="dispR">1.00 (Leave-on)</strong>
+            </div>
+            <div class="sccs-item">
+              <span class="sccs-label">Luas Kulit (SSA):</span>
+              <strong class="sccs-val" id="dispSSA">565 cm²</strong>
+            </div>
+            <div class="sccs-item">
+              <span class="sccs-label">Berat Badan (BW):</span>
+              <strong class="sccs-val" id="dispBW">60.0 kg</strong>
+            </div>
+          </div>
+
+          <!-- Quick Add Ingredient Chips -->
+          <div class="quick-add-section">
+            <span class="quick-add-title"><i data-lucide="plus-circle"></i> Tambah Cepat Bahan Populer:</span>
+            <div class="quick-chips-wrapper">
+              <button type="button" class="chip-btn" data-add="Niacinamide">+ Niacinamide</button>
+              <button type="button" class="chip-btn" data-add="Phenoxyethanol">+ Phenoxyethanol</button>
+              <button type="button" class="chip-btn" data-add="Salicylic Acid">+ Asam Salisilat</button>
+              <button type="button" class="chip-btn" data-add="Alpha-Arbutin">+ Alpha-Arbutin</button>
+              <button type="button" class="chip-btn" data-add="Retinol">+ Retinol</button>
+              <button type="button" class="chip-btn" data-add="Ascorbic Acid">+ Vitamin C</button>
+              <button type="button" class="chip-btn" data-add="Zinc Oxide">+ Zinc Oxide</button>
+              <button type="button" class="chip-btn" data-add="Titanium Dioxide">+ TiO₂</button>
+              <button type="button" class="chip-btn" data-add="Sodium Hyaluronate">+ Hyaluronic Acid</button>
+              <button type="button" class="chip-btn" data-add="Parfum">+ Parfum</button>
+            </div>
+          </div>
+
+          <!-- Formula Table Builder -->
+          <div class="builder-container">
+            <div class="builder-top-bar">
+              <div class="builder-heading">
+                <h3><i data-lucide="layers"></i> Komposisi Formula Kosmetik</h3>
+                <span class="conc-meter-label">Total Aktif: <strong id="dispTotalConc">13.80%</strong></span>
+              </div>
+              <button id="addIngBtn" class="btn btn-secondary btn-sm">
+                <i data-lucide="plus"></i> Tambah Baris Bahan
+              </button>
+            </div>
+
+            <!-- Progress Bar of Total Concentration -->
+            <div class="conc-progress-track">
+              <div class="conc-progress-fill" id="concProgressFill" style="width: 13.8%;"></div>
+            </div>
+
+            <div class="table-responsive builder-table-scroll">
+              <table class="data-table builder-table" id="builderTable">
+                <thead>
+                  <tr>
+                    <th style="width: 42%;">Nama Bahan Baku (INCI / ID)</th>
+                    <th style="width: 22%;">Konsentrasi (%)</th>
+                    <th style="width: 24%;">NOAEL (mg/kg/d)</th>
+                    <th style="width: 12%; text-align: center;">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="ingredientsTbody">
+                  <!-- Dynamically Rendered Rows -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="builder-actions">
+              <button id="runMoSBtn" class="btn btn-primary btn-lg">
+                <i data-lucide="sparkles"></i> Hitung MoS Formula (Run AI Evaluator)
+              </button>
+              <button id="resetBtn" class="btn btn-ghost btn-sm">
+                <i data-lucide="rotate-ccw"></i> Reset Formula
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Safety Dashboard & Table -->
+        <div class="panel results-panel">
+          <!-- Summary Metric Cards -->
+          <div class="metrics-row">
+            <div class="card status-hero-card" id="overallStatusCard">
+              <div class="status-icon-bubble">
+                <i data-lucide="shield-check" id="statusIcon"></i>
+              </div>
+              <div class="status-details">
+                <span class="card-eyebrow">Status Kelayakan Formula</span>
+                <h3 class="status-heading" id="overallStatusTitle">FORMULA AMAN</h3>
+                <p class="status-sub" id="overallStatusDesc">Seluruh bahan memiliki MoS ≥ 100 sesuai standar SCCS.</p>
+              </div>
+            </div>
+
+            <div class="card metric-box">
+              <div class="metric-header">
+                <span class="card-eyebrow">Hazard Index (HI)</span>
+                <span class="metric-pill" id="hiBadge">HI ≤ 1.0 (Aman)</span>
+              </div>
+              <div class="metric-num" id="dispHI">0.0384</div>
+              <span class="metric-note">Beban toksikologi kumulatif sediaan</span>
+            </div>
+
+            <div class="card metric-box">
+              <div class="metric-header">
+                <span class="card-eyebrow">MoS Terkritis (Min)</span>
+                <span class="metric-pill badge-safe" id="minMosBadge">MoS ≥ 100</span>
+              </div>
+              <div class="metric-num" id="dispMinMoS">418.8</div>
+              <span class="metric-note" id="dispMinMoSIng">Niacinamide (4.0%)</span>
+            </div>
+          </div>
+
+          <!-- Main Results Table (Formatted according to user requirements) -->
+          <div class="table-card">
+            <div class="table-card-header">
+              <div class="table-card-title">
+                <i data-lucide="table-2"></i>
+                <h2>Tabel Evaluasi Margin of Safety (MoS)</h2>
+              </div>
+              <div class="table-card-tools">
+                <button id="exportCsvBtn" class="btn btn-outline btn-sm">
+                  <i data-lucide="download"></i> Ekspor CSV
+                </button>
+                <button id="openCpsrTabBtn" class="btn btn-secondary btn-sm">
+                  <i data-lucide="file-text"></i> Buat Laporan DIP
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive results-table-wrapper">
+              <table class="data-table main-eval-table" id="resultsTable">
+                <thead>
+                  <tr>
+                    <th>Nama Bahan Baku</th>
+                    <th>Konsentrasi %</th>
+                    <th>Jenis Produk</th>
+                    <th>Penggunaan</th>
+                    <th>SED (mg/kg/d)</th>
+                    <th>NOAEL</th>
+                    <th>PoD (PoD_sys)</th>
+                    <th>MoS</th>
+                    <th>Status Keamanan</th>
+                  </tr>
+                </thead>
+                <tbody id="resultsTbody">
+                  <!-- Dynamically populated evaluated items -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Toxicological Remarks & Warnings -->
+          <div class="remarks-box">
+            <div class="remarks-box-header">
+              <i data-lucide="alert-circle"></i>
+              <h3>Catatan Regulasi BPOM / SCCS & Peringatan Bahan</h3>
+            </div>
+            <div class="remarks-grid" id="remarksList">
+              <!-- Dynamically populated cards -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 2: VISUALIZER & RISK CHARTS                                          -->
+    <!-- ========================================================================= -->
+    <section class="tab-content" id="tab-visualizer">
+      <div class="panel visualizer-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <i data-lucide="pie-chart"></i>
+            <h2>Visualisasi Profil Keamanan & Margin of Safety</h2>
+          </div>
+          <span class="text-muted" style="font-size: 0.85rem;">Ambang Batas Keamanan Baku SCCS / ECHA: <strong>MoS ≥
+              100</strong></span>
+        </div>
+
+        <div class="chart-layout-grid">
+          <!-- MoS Comparison Bar Chart -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <h3><i data-lucide="bar-chart-2"></i> Perbandingan Margin of Safety (MoS) Antar Bahan</h3>
+              <span class="badge-threshold">Garis Merah: Ambang Batas 100</span>
+            </div>
+            <div class="bar-chart-container" id="mosBarChart">
+              <!-- Dynamically populated horizontal bars with CSS -->
+            </div>
+          </div>
+
+          <!-- Cumulative Risk Gauge & Assessment Breakdown -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <h3><i data-lucide="activity"></i> Profil Beban Risiko Kumulatif (Hazard Index)</h3>
+            </div>
+            <div class="gauge-wrapper">
+              <div class="gauge-meter-box">
+                <div class="gauge-arc" id="gaugeArc">
+                  <div class="gauge-indicator" id="gaugeIndicator"></div>
+                </div>
+                <div class="gauge-center-val">
+                  <span class="gauge-val" id="gaugeHIVal">0.0384</span>
+                  <span class="gauge-sub">Hazard Index (HI)</span>
+                </div>
+              </div>
+              <div class="gauge-legend">
+                <div class="legend-item"><span class="dot safe"></span> HI ≤ 1.0: Beban Toksikologi Aman</div>
+                <div class="legend-item"><span class="dot danger"></span> HI > 1.0: Paparan Kumulatif Kritis</div>
+              </div>
+            </div>
+
+            <div class="risk-distribution-list" id="riskDistList">
+              <!-- Top risk contributors list -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 3: CPSR PART B / DOKUMEN INFORMASI PRODUK (DIP) GENERATOR             -->
+    <!-- ========================================================================= -->
+    <section class="tab-content" id="tab-cpsr">
+      <div class="panel cpsr-panel">
+        <div class="panel-header cpsr-header-tools">
+          <div class="panel-title">
+            <i data-lucide="file-check"></i>
+            <h2>Laporan Penilaian Keamanan Kosmetika (CPSR Bagian B)</h2>
+          </div>
+          <div class="cpsr-actions">
+            <button id="printDossierBtn" class="btn btn-primary">
+              <i data-lucide="printer"></i> Cetak / Simpan PDF Dokumen DIP
+            </button>
+          </div>
+        </div>
+
+        <!-- Official Dossier Paper Layout -->
+        <div class="dossier-paper" id="dossierPaper">
+          <div class="dossier-header-block">
+            <div class="dossier-brand">
+              <h1>DOKUMEN INFORMASI PRODUK (DIP)</h1>
+              <h2>BAGIAN B: PENILAIAN KEAMANAN KOSMETIKA</h2>
+              <p>Sesuai Regulasi (EC) No 1223/2009 Lampiran I & Pedoman BPOM RI No. HK.03.1.23.08.11.07517</p>
+            </div>
+            <div class="dossier-meta-stamp">
+              <span>STATUS AUDIT:</span>
+              <strong id="dossierStampStatus">MEMENUHI SYARAT</strong>
+            </div>
+          </div>
+
+          <div class="dossier-section">
+            <h3 class="dossier-sec-title">1. IDENTITAS SEDIAAN & SPESIFIKASI FORMULA</h3>
+            <div class="dossier-meta-grid">
+              <div><strong>Nama Sediaan Kosmetik:</strong> <span id="dossierProdName">Krim Pencerah Wajah (Face
+                  Cream)</span></div>
+              <div><strong>Nomor Formula / Bets:</strong> <span id="dossierBatchNo">FORM-2026-REG-01</span></div>
+              <div><strong>Bentuk Sediaan:</strong> <span id="dossierFormType">Emulsi Krim (Leave-on)</span></div>
+              <div><strong>Target Pengguna:</strong> <span id="dossierTargetBW">Dewasa (60 kg)</span></div>
+              <div><strong>Pajanan Harian (A):</strong> <span id="dossierDailyA">1.54 g/hari</span></div>
+              <div><strong>Faktor Retensi (R):</strong> <span id="dossierRetention">1.00</span></div>
+            </div>
+          </div>
+
+          <div class="dossier-section">
+            <h3 class="dossier-sec-title">2. TABEL KUANTITATIF MARGIN OF SAFETY (MoS) SETIAP BAHAN</h3>
+            <div class="table-responsive">
+              <table class="dossier-table" id="dossierTable">
+                <thead>
+                  <tr>
+                    <th>Bahan Baku (INCI)</th>
+                    <th>Kons. %</th>
+                    <th>SED (mg/kg/d)</th>
+                    <th>NOAEL (mg/kg/d)</th>
+                    <th>PoD_sys</th>
+                    <th>Nilai MoS</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="dossierTbody">
+                  <!-- Auto filled -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="dossier-section">
+            <h3 class="dossier-sec-title">3. PENILAIAN TOKSIKOLOGIS, TOLERANSI LOKAL & PAPARAN AGREGAT</h3>
+            <div class="dossier-text-block">
+              <p><strong>A. Toksisitas Sistemik & Margin of Safety:</strong> Seluruh bahan aktif dan bahan penolong
+                dalam sediaan kosmetik ini memiliki nilai Margin of Safety ($MoS$) &ge; 100 berdasarkan Point of
+                Departure ($NOAEL_{sys}$) dari uji toksisitas subkronis oral 90 hari (OECD TG 408) atau pedoman resmi
+                CIR/SCCS.</p>
+              <p><strong>B. Toleransi Lokal (Iritasi Kulit & Mata):</strong> Berdasarkan kajian profil bahan baku dan pH
+                sediaan, formula tidak mengandung zat korosif atau iritan primer melebihi ambang batas yang ditetapkan.
+              </p>
+              <p><strong>C. Kepatuhan Batas Regulasi:</strong> Penggunaan pengawet (Phenoxyethanol/Paraben) dan filter
+                UV telah diverifikasi sesuai dengan Lampiran Regulasi BPOM RI dan EU CosIng Annex V & VI.</p>
+            </div>
+          </div>
+
+          <div class="dossier-section">
+            <h3 class="dossier-sec-title">4. KESIMPULAN AKHIR PENILAI KEAMANAN (SAFETY ASSESSOR STATEMENT)</h3>
+            <div class="dossier-conclusion-box" id="dossierConclusionBox">
+              <p>Berdasarkan seluruh perhitungan paparan sistemik ($SED$) dan evaluasi data toksikologi yang ada,
+                sediaan kosmetik ini disimpulkan: <strong>AMAN DIGUNAKAN OLEH MANUSIA DALAM KONDISI PENGGUNAAN NORMAL
+                  MAUPUN YANG DAPAT DIPERKIRAKAN SECARA WAJAR</strong> (*Safe for Human Health when used under normal
+                conditions*).</p>
+            </div>
+
+            <div class="dossier-signature-row">
+              <div class="sign-box">
+                <span class="sign-title">Penilai Keamanan Kosmetika (Safety Assessor):</span>
+                <div class="sign-space"></div>
+                <strong>Apoteker Spesialis Regulasi Kosmetik, M.Farm.</strong>
+                <span>Kualifikasi Penilai Keamanan (EU EC 1223/2009 Part B)</span>
+              </div>
+              <div class="sign-box">
+                <span class="sign-title">Tanggal Penilaian:</span>
+                <p id="dossierDateStamp">25 September 2026</p>
+                <span class="sign-title" style="margin-top: 15px;">Institusi Penguji:</span>
+                <p>Laboratorium Aplikasi AI & Regulasi Farmasi Industri</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 4: INGREDIENT TOXICOLOGY DATABASE EXPLORER                           -->
+    <!-- ========================================================================= -->
+    <section class="tab-content" id="tab-database">
+      <div class="panel db-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <i data-lucide="database"></i>
+            <h2>Basis Data Toksikologi & Regulasi Bahan Kosmetik</h2>
+          </div>
+          <div class="db-search-wrapper">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" id="dbSearchInput" class="form-input db-search-input"
+              placeholder="Cari berdasarkan nama INCI, sinonim, atau nomor CAS...">
+          </div>
+        </div>
+
+        <div class="db-filter-chips">
+          <button class="filter-chip active" data-filter="all">Semua Bahan</button>
+          <button class="filter-chip" data-filter="active">Bahan Aktif</button>
+          <button class="filter-chip" data-filter="preservative">Pengawet (Annex V)</button>
+          <button class="filter-chip" data-filter="uv_filter">Filter UV (Annex VI)</button>
+          <button class="filter-chip" data-filter="humectant">Humektan & Emolen</button>
+          <button class="filter-chip" data-filter="antioxidant">Antioksidan</button>
+        </div>
+
+        <div class="table-responsive db-table-wrapper">
+          <table class="data-table db-table">
+            <thead>
+              <tr>
+                <th>Nama INCI & Sinonim</th>
+                <th>Nomor CAS</th>
+                <th>Kategori & Fungsi</th>
+                <th>NOAEL Oral (mg/kg/d)</th>
+                <th>Penetrasi Kulit (%)</th>
+                <th>Batas Regulasi BPOM / SCCS</th>
+                <th>Sumber Ilmiah</th>
+              </tr>
+            </thead>
+            <tbody id="dbTbody">
+              <!-- Dynamically populated from INGREDIENT_DATABASE -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 5: REGULATORY GUIDELINES & SCCS FORMULA GUIDE                         -->
+    <!-- ========================================================================= -->
+    <section class="tab-content" id="tab-guidelines">
+      <div class="panel guide-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <i data-lucide="book-open"></i>
+            <h2>Pedoman Ilmiah & Panduan Perhitungan SCCS 12th Revision</h2>
+          </div>
+        </div>
+
+        <div class="guide-cards-grid">
+          <div class="guide-card">
+            <h3><i data-lucide="calculator"></i> 1. Rumus Systemic Exposure Dose (SED)</h3>
+            <p>Dosis paparan sistemik harian per kilogram berat badan dihitung dengan:</p>
+            <div class="code-block">
+              <code>SED = [ A × 1000 × (C / 100) × (DAp / 100) × R ] / BW</code>
+            </div>
+            <ul>
+              <li><strong>A</strong> = Jumlah aplikasi harian produk baku SCCS (g/hari).</li>
+              <li><strong>C</strong> = Konsentrasi bahan baku dalam formula (%).</li>
+              <li><strong>DAp</strong> = Persentase absorpsi dermal (Default konservatif SCCS: <strong>50%</strong>).
+              </li>
+              <li><strong>R</strong> = Retention factor (1.0 untuk leave-on; 0.01 untuk bilas/shampoo).</li>
+              <li><strong>BW</strong> = Berat badan konsumen (60 kg dewasa; 5 kg bayi).</li>
+            </ul>
+          </div>
+
+          <div class="guide-card">
+            <h3><i data-lucide="shield"></i> 2. Penyesuaian Bioavailabilitas ($PoD_{sys}$)</h3>
+            <p>Koreksi rute pemberian jika menggunakan uji toksisitas oral 90 hari:</p>
+            <div class="code-block">
+              <code>NOAEL_sys = NOAEL_oral × (Abs_oral / 100)</code>
+            </div>
+            <ul>
+              <li>Jika $Abs_{oral} \ge 50\%$, nilai $NOAEL_{sys} = NOAEL_{oral}$.</li>
+              <li>Jika $Abs_{oral} < 50\%$, dilakukan koreksi sesuai persentase.</li>
+              <li>Jika data tidak tersedia, gunakan default SCCS <strong>50%</strong>.</li>
+            </ul>
+          </div>
+
+          <div class="guide-card">
+            <h3><i data-lucide="check-circle"></i> 3. Kriteria Keberterimaan MoS &ge; 100</h3>
+            <p>Ambang batas keamanan 100 diturunkan dari Default Assessment Factor (DAF):</p>
+            <div class="code-block">
+              <code>MoS = PoD_sys / SED &ge; 100</code>
+            </div>
+            <ul>
+              <li><strong>Inter-species</strong> (Hewan ke Manusia): $4.0 \times 2.5 = 10$</li>
+              <li><strong>Intra-species</strong> (Sensitivitas antar individu): $3.2 \times 3.16 = 10$</li>
+              <li><strong>Total Safety Factor</strong>: $10 \times 10 = 100$.</li>
+            </ul>
+          </div>
+
+          <div class="guide-card">
+            <h3><i data-lucide="layers"></i> 4. Hazard Index (HI) Paparan Kumulatif</h3>
+            <p>Untuk bahan dengan cara kerja serupa (misalnya pengawet ester paraben):</p>
+            <div class="code-block">
+              <code>HI = &sum; (1 / MoS_i) × 100 &le; 1.0</code>
+            </div>
+            <ul>
+              <li>Jika $HI \le 1.0$, kombinasi bahan dinyatakan <strong>AMAN</strong>.</li>
+              <li>Jika $HI > 1.0$, terdapat kekhawatiran risiko toksisitas kumulatif.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Aplikasi AI Penilaian Keamanan & Margin of Safety (MoS) Kosmetik • Magister Ilmu Kefarmasian - Regulasi Farmasi
+        2026</p>
+      <p class="footer-sub">Dirancang berdasarkan pedoman SCCS/1647/22, ECHA R.8, CIR Guidelines, EFSA BMD, & Pedoman
+        DIP Kosmetika BPOM RI</p>
+    </div>
+  </footer>
+
+  <script src="tools.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
