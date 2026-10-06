@@ -1,0 +1,22 @@
+{
+  "name": "cosmetic-mos-safety-assessor",
+  "version": "2.4.0",
+  "description": "Expert AI Agent & Interactive Web Application for Cosmetic Margin of Safety (MoS) and SED Risk Evaluation compliant with SCCS, CIR, ECHA, EFSA, and BPOM RI.",
+  "main": "app.js",
+  "scripts": {
+    "start": "npx serve .",
+    "test": "powershell -ExecutionPolicy Bypass -File ./test_validation.ps1"
+  },
+  "keywords": [
+    "cosmetic-safety",
+    "margin-of-safety",
+    "mos-calculator",
+    "sccs",
+    "cpsr",
+    "toxicology",
+    "regulatory-affairs",
+    "industrial-pharmacy"
+  ],
+  "author": "Vita Fitria Ramadhani (NPM: 2506714311)",
+  "license": "MIT"
+}
